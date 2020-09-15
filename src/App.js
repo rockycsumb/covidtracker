@@ -3,12 +3,17 @@ import {
 	MenuItem,
 	FormControl,
 	Select,
+	Card,
+	CardContent,
 } from '@material-ui/core';
+import InfoBox from './InfoBox';
+import Map from './Map';
 import './App.css';
 
 function App() {
   const [countries, setCountries]= useState([]);
   const [country, setCountry] = useState('Worldwide');
+  const [countryInfo, setCountryInfo] = useState({});
 	
   // https://disease.sh/v3/covid-19/countries
   useEffect(()=>{
@@ -31,13 +36,27 @@ function App() {
 	
   const onCountryChange = async (event) => {
 	  const countryCode = event.target.value;
-	  console.log("yoo ", countryCode);
 	  setCountry(countryCode);
+	  
+	  const url = 
+		countryCode === 'worldwide' 
+	  	? 'https://disease.sh/v3/covid-19/all' 
+	  	: `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+	  
+	  await fetch(url)
+	  .then(response => response.json())
+	  .then(data =>{
+		  setCountry(countryCode);
+		  setCountryInfo(data);
+	  })
   }
+  
+  console.log("country info ", countryInfo);
 	
   return (
     <div className="app">
-		<div className="app_header">
+		  <div className="app_left">
+			  <div className="app_header">
 			<h1>Covid Tracker</h1>
 			<FormControl className="app_dropdown">
 				<Select
@@ -55,17 +74,51 @@ function App() {
 		</div>
        
 		  
-		  {/* Header */}
-		  {/* Title + Select input drop down */}
+		 <div className="app_stats">
+			 <InfoBox
+				 title="Coronavirus Cases"
+				 cases={countryInfo.todayCases}
+				 total={countryInfo.cases}
+				 
+			  />
+			 
+			 <InfoBox
+				 title="Recovered"
+				 cases={countryInfo.todayRecovered}
+				 total={countryInfo.recovered}
+				 
+			  />
+			 
+			 <InfoBox
+				 title="Deaths"
+				 cases={countryInfo.todayDeaths}
+				 total={countryInfo.deaths}
+				 
+			  />
+		 </div>
 		  
 		  {/*Infobox */}
 		  {/*Infobox */}
 		  {/*Infobox */}
 		  
-		  {/*Table */}
-		  {/*Graph*/}
+		  
 		  
 		  {/*Map */}
+		  <Map />
+		  
+		  </div>
+		  <Card className="app_right">
+			  <CardContent>
+				  <h3>Live Cases by Country</h3>
+	
+				  {/*Table */}
+				  <h3>Worldwide New Cases</h3>
+		 	 {/*Graph*/}
+			  
+			  </CardContent>
+			  
+		  </Card>
+		
     </div>
   );
 }
