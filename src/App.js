@@ -14,11 +14,16 @@ function App() {
   const [countries, setCountries]= useState([]);
   const [country, setCountry] = useState('Worldwide');
   const [countryInfo, setCountryInfo] = useState({});
-	
-  // https://disease.sh/v3/covid-19/countries
+
   useEffect(()=>{
-	  // async -> send requires, wait for it, do something
-	  
+	  fetch('https://disease.sh/v3/covid-19/all')
+	  .then(response => response.json())
+	  .then(data => {
+		  setCountryInfo(data);
+	  })
+  }, [])
+  
+  useEffect(()=>{
 	  const getCountriesData = async () => {
 		  await fetch('https://disease.sh/v3/covid-19/countries')
 		    .then(response => response.json())
@@ -95,12 +100,7 @@ function App() {
 				 total={countryInfo.deaths}
 				 
 			  />
-		 </div>
-		  
-		  {/*Infobox */}
-		  {/*Infobox */}
-		  {/*Infobox */}
-		  
+		 </div>	  
 		  
 		  
 		  {/*Map */}
@@ -113,7 +113,7 @@ function App() {
 	
 				  {/*Table */}
 				  <h3>Worldwide New Cases</h3>
-		 	 {/*Graph*/}
+		 		 {/*Graph*/}
 			  
 			  </CardContent>
 			  
