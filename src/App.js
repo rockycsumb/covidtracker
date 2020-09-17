@@ -40,12 +40,13 @@ function App() {
 		  await fetch('https://disease.sh/v3/covid-19/countries')
 		    .then(response => response.json())
 		    .then(data => {
-			  const countries = data.map(country => (
+			  let countries = data.map(country => (
 			  	{
 					name: country.country,
 					value: country.countryInfo.iso2,
 				}))
-			  const sortedData = sortData(data);
+			  countries = countries.filter((country) => country.value !== null);
+			  let sortedData = sortData(data);
 			  setTableData(sortedData);
 			  setMapCountries(data);
 			  setCountries(countries);
@@ -68,8 +69,10 @@ function App() {
 	  .then(data =>{
 		  setCountry(countryCode);
 		  setCountryInfo(data);
-		  console.log(data);
-		  setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+		  console.log("country code ", countryCode)
+		  countryCode === "Worldwide"
+          ? setMapCenter([34.80746, -40.4796])
+          : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
 		  setMapZoom(4);
 	  })
   }
