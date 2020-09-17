@@ -12,6 +12,19 @@ body {
 	padding: 20px;
 }
 
+.app_header > h1 {
+	color: #fc3c3c;
+	font-size: 2rem;
+}
+
+.app_graphTitle {
+	margin-top: 20px;
+}
+
+.app_dropdown {
+	background-color: white;
+}
+
 .app_header {
 	display: flex;
 	align-items: center;
