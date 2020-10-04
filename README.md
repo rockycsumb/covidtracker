@@ -1,3 +1,9 @@
+# A Covid tracking app I created with a team
+# it was great experience, will be implementing other tracking methods soon
+
+CovidTracker https://covid-tracker-4a671.web.app/
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
